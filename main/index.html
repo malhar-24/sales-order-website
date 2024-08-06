@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../main/style.css">
+    <title> SaleSyncX </title>
+</head>
+<body>
+    <div id="content">
+        <h1>Welcome to our Sales Order Platform</h1>
+        <p>"Explore our products and streamline your ordering process with our easy-to-use platform. Join us today to enjoy a seamless experience!"</p>
+        <div id="buttons">
+            <button id="login">Login</button>
+            <button id="register">Register</button>
+        </div>
+    </div>
+
+<!-- New Password Box (hidden by default) -->
+<!-- New Password Box (hidden by default) -->
+<div id="newPasswordBox" style="display: none;">
+    <div class="login-container">
+        <span class="close" id="closeNewPasswordBox">&times;</span>
+        <h2>New Password</h2>
+        <form id="newPasswordForm" action="changepassword.php" method="post">
+            <label for="newPassword"><b>New Password:</b></label>
+            <br>
+            <input type="password" id="newPassword" name="newPassword" required>
+            <br><br>
+            <label for="confirmNewPassword"><b>Confirm New Password:</b></label>
+            <br>
+            <input type="password" id="confirmNewPassword" name="confirmNewPassword" required>
+            <br><br>
+            <button id="changePasswordButton" type="submit">Change Password</button>
+        </form>
+    </div>
+</div>
+
+    <!-- Forgot Password Box (hidden by default) -->
+<div id="forgotPasswordBox" style="display: none;">
+    <div class="login-container">
+        <span class="close" id="closeForgotPasswordBox">&times;</span>
+        <h2>Forgot Password</h2>
+        <form id="forgotPasswordForm" action="validate_username.php" method="post">
+            <label for="forgotUsername"><b>Enter your username:</b></label>
+            <br>
+            <input type="text" id="forgotUsername" name="forgotUsername" required>
+            <br><br>
+            <button id="forgotPasswordButton" type="submit">Check Username</button>
+        </form>
+    </div>
+</div>
+
+<!-- OTP Box (hidden by default) -->
+<div id="otpBox" style="display: none;">
+    <div class="login-container">
+        <span class="close" id="closeOTPBox">&times;</span>
+        <h2>Enter OTP</h2>
+        <form id="otpForm" method="post" action="validate_otp.php">
+            <label for="otp"><b>Enter OTP sent to your email:</b></label>
+            <br>
+            <input type="text" id="otp" name="otp" required>
+            <br><br>
+            <button id="otpSubmitButton" type="submit">Submit OTP</button>
+        </form>
+    </div>
+</div>
+
+    <!-- Login Box -->
+    <div id="loginBox">
+        <div class="login-container">
+            <span class="close" id="closeLoginBox">&times;</span>
+            <form id="loginForm"> <!-- Add id attribute to the form -->
+                <label for="username"><b>Username:</b></label>
+                <br>
+                <input type="text" id="username1" name="username1" required>
+                <br><br>
+                <label for="password"><b>Password:</b></label>
+                <br>
+                <input type="password" id="password1" name="password1" required>
+                <p>forgot password?<a href="#forgotpasswordbox" id="forgotpasswordlink"> click here.</a></p>
+                <p>Create an account?<a href="#registerBox" id="registerLink"> Register.</a></p>
+                
+                <button id="login2" type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+    
+
+    <!-- Register Box (hidden by default) -->
+    <!-- Register Box (hidden by default) -->
+<div id="registerBox" style="display: none;">
+    <div class="register-container">
+        <span class="close" id="closeRegisterBox">&times;</span>
+        <h2>Registration Form</h2>
+        <div id="registrationForm">
+            <form action="register.php" method="post">
+                <label for="registerAs">Register As:</label>
+                <br>
+                <select id="registerAs" name="registerAs" required>
+                    <option value="salesperson">Salesperson</option>
+                    <option value="company">Company</option>
+                </select>
+                <br><br><br>
+                <!-- Company Name field (initially hidden) -->
+                <div id="companyNameFields" style="display: none;">
+                    <label for="companyName" id="companyNameLabel">Company Name:</label>
+                    <br>
+                    <input type="text" id="companyName" name="companyName">
+                    <br><br>
+                </div>
+
+                <!-- First Name and Last Name fields (initially hidden) -->
+                <div id="salespersonNameFields" style="display: none;">
+                    <label for="firstName" id="firstNameLabel">First Name:</label>
+                    <br>
+                    <input type="text" id="firstName" name="firstName">
+                    <br><br>
+
+                    <label for="lastName" id="lastNameLabel">Last Name:</label>
+                    <br>
+                    <input type="text" id="lastName" name="lastName">
+                    <br><br>
+                </div>
+
+                <label for="email">Email:</label>
+                <br>
+                <input type="email" id="email" name="email" required>
+                <br><br>
+
+                <label for="phone">Phone Number:</label>
+                <br>
+                <input type="tel" id="phone" name="phone" required>
+                <br><br>
+
+                <label for="username">Username:</label>
+                <br>
+                <input type="text" id="username" name="username" required>
+                <br><br>
+
+                <label for="password">Password:</label>
+                <br>
+                <input type="password" id="password" name="password" required>
+                <br><br>
+
+                <label for="confirmPassword">Confirm Password:</label>
+                <br>
+                <input type="password" id="confirmPassword" name="confirmPassword" required>
+                <br><br>
+
+                <button id="registerButton" type="submit">Register</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+    <script src="your-script.js"></script>
+</body>
+</html>

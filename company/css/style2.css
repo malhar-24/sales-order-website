@@ -1,0 +1,321 @@
+product-section {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.product-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start; /* Align items to the start of the container */
+}
+
+.product-box {
+  position: relative; /* Position relative for absolute positioning */
+  width: calc(21% - 45px); /* Adjust width to fit four products per row */
+  height: 200px;
+  min-width: 165px;
+  margin: 16px;
+  padding: 9px;
+  border: 2px solid #ccc;
+  box-sizing: border-box;
+}
+
+.delete-btn {
+  position: absolute;
+  top: 5px; /* Adjust top position as needed */
+  right: 5px; /* Adjust right position as needed */
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.delete-btn i {
+  color: red;
+  font-size: 20px;
+}
+
+.product-box img {
+  width: 100%; /* Make the image fill the container */
+  height: 115px; /* Maintain aspect ratio */
+}
+
+.product-name,
+.product-price,
+.product-stock {
+  text-align: center;
+  margin: 5px 0;
+}
+
+
+.add-box {
+  width: calc(21% - 45px); /* Adjust width to fit four products per row */
+  margin-bottom: 20px;
+  padding: 29px;
+  border: 2px solid #ccc;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .product-box,
+  .add-box {
+    width: calc(21% - 45px); /* Two boxes per row on smaller screens */
+  }
+}
+
+  .product-form-container {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+    backdrop-filter: blur(8px); /* Apply blur effect */
+    z-index: 1;
+  }
+  
+  .product-form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 39px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .close-form {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+  }
+  
+  .form input,
+  .form textarea,
+  .form button {
+    display: block;
+    margin-bottom: 30px;
+    width: 100%;
+  }
+  
+  .form button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .form button:hover {
+    background-color: #0056b3;
+  }
+  
+  #productForm input,textarea {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid black;
+    outline: none;
+    background-color: rgba(255, 255, 255, 0.7);
+  }
+  
+
+
+
+
+  section {
+    margin-bottom: 2rem;
+  }
+  
+  .choose-boxes {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+  
+  select {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+  
+  th,
+  td {
+    padding: 2.4rem;
+    text-align: left;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  th {
+    background-color: #f2f2f2;
+  }
+  .change-status-btn {
+    padding: 8px 12px;
+    background-color: #ff1100;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+  }
+  
+  .change-status-btn:hover {
+    background-color: #ff6d38;
+  }
+
+
+
+  #analytics-section {
+    display: flex;
+    flex-direction: column;
+    margin: 2rem;
+  }
+  
+  #analytics-section .choose-boxes {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+  
+  #analytics-section select {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+  
+  #analytics-section .chart-name {
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+  
+  #analytics-section .chart-container {
+    width: 100%;
+    height: 300px; /* Adjust height as needed */
+  }
+  
+  #analytics-section table {
+    width: 100%;
+    border-collapse: collapse;
+    border-top: 1px solid #ccc;
+  }
+  
+  #analytics-section th,
+  #analytics-section td {
+    padding: 0.5rem;
+    text-align: left;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  #analytics-section th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+  
+  #analytics-section .chart-column {
+    text-align: center;
+    cursor: pointer;
+  }
+  
+  /* Additional styles for hover/active states on buttons, etc. */
+  
+  #analytics-section .highlight {
+    background-color: #f5f5f5;
+  }
+  
+  #analytics-section .active {
+    background-color: #ddd;
+  }
+
+
+
+
+  .content-section {
+    display: block;
+    width: 80%;
+  }
+
+
+  
+  .content-section {
+    display: block;
+    width: 80%;
+  }
+  
+  .intro, .dic, .social-links, .contact {
+    box-sizing: border-box;
+    padding: 30px;
+  }
+  
+  .company_logo {
+    width: 100px; /* Adjust size as needed */
+    height: 100px; /* Adjust size as needed */
+    border-radius: 50%; /* Make it round */
+    border: 2px solid #000000; 
+  }
+  
+  .sub-intro {
+    text-align: left;
+  }
+  .intro {
+    width: 35%;
+    height: 92vh;
+    float: left;
+    background-color: #f5f5f5;
+    text-align: center;
+  }
+  
+  .dic {
+    margin-left: 35%;
+    padding-right: 7%;
+    height: 48vh;
+  }
+  
+  
+  .social-links, .contact {
+    padding-left: 40px;
+    width: 30%;
+    height: 20vh;
+    float: left;
+  }
+
+  .intro h2, p {
+    padding: 13px;
+  }
+  
+  /* Clear the float to prevent layout issues */
+  .clearfix::after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  .contact{
+    width: 33%;
+  }
+
+  #editButton, #doneButton {
+    position: absolute;
+    width: 60px;
+    bottom: 15px;
+    right: 30px;
+    margin: 20px;
+    padding: 10px;
+    background-color: #ff2600;
+    color: #fff;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+  }
+  
+

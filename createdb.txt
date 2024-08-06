@@ -1,0 +1,259 @@
+CREATE TABLE company (
+    company_id INT PRIMARY KEY AUTO_INCREMENT,
+    company_name VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL
+);
+CREATE TABLE product (
+    product_id INT PRIMARY KEY AUTO_INCREMENT,
+    company_id INT,
+    product_name VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+    total_quantity_sold INT,
+    image_url VARCHAR(255),
+    description TEXT,
+    price DECIMAL(10, 2) NOT NULL DEFAULT 0,
+    FOREIGN KEY (company_id) REFERENCES company(company_id)
+);
+CREATE TABLE salesperson (
+    salesperson_id INT PRIMARY KEY AUTO_INCREMENT,
+    total_quantity_sold INT NOT NULL DEFAULT 0
+);
+CREATE TABLE orders (
+    order_id INT AUTO_INCREMENT PRIMARY KEY,
+    product_name VARCHAR(255) NOT NULL,
+    username VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci,
+    company_name VARCHAR(255) NOT NULL,
+    quantity INT NOT NULL DEFAULT 0,
+    total DECIMAL(10, 2) NOT NULL DEFAULT 0,
+    drop_address TEXT,
+    status VARCHAR(50) DEFAULT 'Pending',
+    order_date DATE NOT NULL
+);
+
+
+CREATE TABLE users (
+    username VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+    password VARCHAR(255) NOT NULL
+);
+ALTER TABLE company
+ADD COLUMN email VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+ALTER TABLE company
+ADD COLUMN phone VARCHAR(20);
+
+ALTER TABLE company
+ADD COLUMN description TEXT;
+
+ALTER TABLE company
+ADD COLUMN field VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+ALTER TABLE company
+ADD COLUMN image_path VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+ALTER TABLE company
+ADD COLUMN username VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+-- Add 'email', 'phone', and 'username' columns to the salesperson table
+
+ALTER TABLE salesperson
+ADD COLUMN first_name VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+ALTER TABLE salesperson
+ADD COLUMN last_name VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+ALTER TABLE salesperson
+ADD COLUMN email VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+ALTER TABLE salesperson
+ADD COLUMN phone VARCHAR(20);
+
+ALTER TABLE salesperson
+ADD COLUMN image_path VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+ALTER TABLE salesperson
+ADD COLUMN username VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+ALTER TABLE company
+ADD COLUMN password VARCHAR(255) NOT NULL;
+
+-- Add 'password' column to the salesperson table
+ALTER TABLE salesperson
+ADD COLUMN password VARCHAR(255) NOT NULL;
+
+ALTER TABLE product
+ADD COLUMN stock INT NOT NULL DEFAULT 0;
+
+CREATE TABLE salesperson_product (
+    salesperson_id INT,
+    product_id INT,
+    quantity_sold INT NOT NULL DEFAULT 0,
+    total_price DECIMAL(10, 2) NOT NULL DEFAULT 0,
+    FOREIGN KEY (salesperson_id) REFERENCES salesperson(salesperson_id),
+    FOREIGN KEY (product_id) REFERENCES product(product_id)
+);
+
+
+
+
+
+-- Add unique constraint for the combination of salesperson_id and product_id
+ALTER TABLE salesperson_product
+ADD CONSTRAINT unique_salesperson_product UNIQUE (product_id);
+
+-- Modify quantity_sold column to NOT NULL and DEFAULT 0
+ALTER TABLE salesperson_product
+MODIFY COLUMN quantity_sold INT NOT NULL DEFAULT 0;
+
+-- Modify total_price column to NOT NULL and DEFAULT 0
+ALTER TABLE salesperson_product
+MODIFY COLUMN total_price DECIMAL(10, 2) NOT NULL DEFAULT 0;
+
+-- Add the company_username column to the orders table
+ALTER TABLE orders
+ADD COLUMN company_username VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+-- Create a trigger to update the company_username column
+DELIMITER //
+CREATE TRIGGER update_company_username
+BEFORE INSERT ON orders
+FOR EACH ROW
+BEGIN
+    DECLARE company_user VARCHAR(255);
+    -- Get the username from the company table based on the company_name in the new order
+    SELECT username INTO company_user FROM company WHERE company_name = NEW.company_name LIMIT 1;
+    -- Set the company_username value in the new order
+    SET NEW.company_username = company_user;
+END;
+//
+DELIMITER ;
+
+
+DELIMITER //
+
+CREATE TRIGGER update_salesperson_product
+AFTER UPDATE ON orders
+FOR EACH ROW
+BEGIN
+    IF NEW.status = 'Done' AND OLD.status != 'Done' THEN
+        -- Insert or update salesperson_product table
+        INSERT INTO salesperson_product (salesperson_id, product_id, quantity_sold, total_price)
+        VALUES ((SELECT salesperson_id FROM salesperson WHERE username = NEW.username LIMIT 1),
+                (SELECT product_id FROM product WHERE product_name = NEW.product_name LIMIT 1),
+                NEW.quantity, NEW.total)
+        ON DUPLICATE KEY UPDATE
+        quantity_sold = quantity_sold + NEW.quantity,
+        total_price = total_price + NEW.total;
+    END IF;
+END;
+//
+
+DELIMITER ;
+
+
+
+
+
+DELIMITER //
+
+CREATE TRIGGER update_stock_and_quantity_sold
+AFTER UPDATE ON orders
+FOR EACH ROW
+BEGIN
+    IF NEW.status = 'Done' AND OLD.status != 'Done' THEN
+        -- Update product stock
+        UPDATE product
+        SET stock = stock - NEW.quantity
+        WHERE product_name = NEW.product_name;
+
+        -- Update total quantity sold for the salesperson
+        UPDATE salesperson
+        SET total_quantity_sold = total_quantity_sold + NEW.quantity
+        WHERE username = NEW.username;
+    END IF;
+END //
+
+DELIMITER ;
+
+
+
+ALTER TABLE company
+ADD COLUMN website VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+ALTER TABLE company
+ADD COLUMN industry VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+ALTER TABLE company
+ADD COLUMN location VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+ALTER TABLE company
+ADD COLUMN founded_date DATE;
+
+ALTER TABLE company
+ADD COLUMN facebook VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+ALTER TABLE company
+ADD COLUMN twitter VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+ALTER TABLE company
+ADD COLUMN linkedin VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+ALTER TABLE company
+ADD COLUMN ceo_name VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+ALTER TABLE company
+ADD COLUMN num_employees INT;
+
+ALTER TABLE company
+ADD COLUMN revenue DECIMAL(15, 2);
+
+ALTER TABLE company
+ADD COLUMN mission_statement TEXT;
+
+
+ALTER TABLE salesperson
+ADD COLUMN facebook VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+ALTER TABLE salesperson
+ADD COLUMN twitter VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+ALTER TABLE salesperson
+ADD COLUMN linkedin VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+ALTER TABLE salesperson
+ADD COLUMN bio TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+ALTER TABLE salesperson
+ADD COLUMN address TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+ALTER TABLE salesperson
+ADD COLUMN languages_spoken TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+ALTER TABLE salesperson
+ADD COLUMN area_of_expertise TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+ALTER TABLE salesperson
+ADD COLUMN communication_skill TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+ALTER TABLE salesperson
+ADD COLUMN followed_technique TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+ALTER TABLE salesperson
+ADD COLUMN education TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+
+
+
+CREATE DATABASE IF NOT EXISTS demo1;
+
+CREATE USER 'demo1'@'localhost' IDENTIFIED BY '123';
+GRANT ALL PRIVILEGES ON demo1.* TO 'demo1'@'localhost';
+FLUSH PRIVILEGES;
+
+
+-- Create table
+CREATE TABLE feedback (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    uname VARCHAR(255) NOT NULL,
+    satisfy ENUM('yes', 'no') NOT NULL,
+    rating INT NOT NULL,
+    msg TEXT NOT NULL,
+    product_name VARCHAR(255),
+    order_id INT
+);

@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="author" content="CodeHim">
+      <title> SaleSyncX </title>
+      <link rel="stylesheet" href="./css/style.css">
+      <link rel="stylesheet" href="./css/style2.css">
+      <link rel="stylesheet" href="./css/demo.css">
+      <link rel='stylesheet' href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css'>
+      <link rel='stylesheet' href='https://pro.fontawesome.com/releases/v6.0.0-beta3/css/all.css'>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&amp;display=swap'>
+   </head>
+   <body>
+      <main class="cd__main">
+         <nav class="sidebar close">
+  <header>
+    <div class="image-text"> <a href="#" class="text-logo-a">
+        <span class="image">
+          <img src="../images/icons8-total-sales-64.png" alt="">
+        </span>
+        <div class="text logo-text">
+          <span class="name">SaleSyncX</span>
+      </a>
+    </div>
+    </div>
+    <i class='bx bx-chevron-right toggle'></i>
+  </header>
+  <div class="menu-bar">
+        <div class="menu">
+          <ul class="menu-links">
+            <li class="nav-link">
+              <a href="#">
+                <i class='material-icons icon'>person</i>
+                <span class="text nav-text">Profile</span>
+              </a>
+            </li>
+            <li class="nav-link">
+              <a href="#">
+                <i class='material-icons icon'> local_shipping</i>
+                <span class="text nav-text">Orders</span>
+              </a>
+            </li>
+            <li class="nav-link">
+              <a href="#">
+                <i class='material-icons icon'>shopping_cart</i>
+                <span class="text nav-text">Products</span>
+              </a>
+            </li>
+            <li class="nav-link">
+              <a href="#">
+                <i class='material-icons icon'>pie_chart</i>
+                <span class="text nav-text">Analytics</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="bottom-content">
+          <li class="">
+              <a href="#" onclick="logout();">
+                  <i class='material-icons icon'>exit_to_app</i>
+                  <span class="text nav-text">Logout</span>
+              </a>
+          </li>
+      </div>
+  </div>
+</nav>
+
+<div class="content-section" id="profile-section">
+  <div class="intro">
+    <img src="#" alt="Company Logo" class="company_logo">
+    <label for="uploadImage" id="uploadImageLabel" style="display: none;">Upload Image</label>
+    <input type="file" accept="image/*" id="uploadImage" style="display: none;">
+    <br>
+    <label for="companyNameInput" id="companyNameLabel" style="display: none;">Enter Name:</label>
+    <h2 class="company_name editable"></h2>
+    <div class="sub-intro">
+      <p class="">Area Of Expertise : <span class="area_of_expertise editable"></span></p>
+      <p class="">Education : <span class="education editable"></span></p>
+      <p class="">Communication Skill : <span class="communication_skill editable"></span></p>
+      <p class="">Language Spoken : <span class="languages_spoken editable"></span></p>
+      <p class="">Followed Technique : <span class="followed_technique editable"></span></p>
+      <p class="">Total Sales Done : <span class="total_sales_done editable"></span></p>
+    </div>
+  </div>
+  <div class="dic">
+    <h1>Brief Bio</h1>
+    <p class="bio editable"></p>
+  </div>
+  <div class="contact">
+    <h2>Contact :</h2>
+    <p class="">Address : <span class="address editable"></span></p>
+    <p class="">Phone : <span class="phone editable"></span></p>
+    <p class="">Email : <span class="email editable"></span></p>
+  </div>
+  <div class="social-links">
+    <h2>Social Links :</h2>
+    <p class="">Facebook : <a href="#" class="facebook editable"></a></p>
+    <p class="">Twitter : <a href="#" class="twitter editable"></a></p>
+    <p class="">LinkedIn : <a href="#" class="linkedin editable"></a></p>
+  </div>
+  <button id="editButton" onclick="toggleEditMode()">
+    <i class="fas fa-edit"></i> Edit
+  </button>
+  <button id="doneButton" style="display: none;" onclick="saveChanges()">
+    <i class="fas fa-check"></i> Done
+  </button>
+</div>
+
+
+
+
+<div class="content-section" id="revenue-section">
+  <div class="choose-boxes">
+    <select id="choose-box-1">
+      <option value="Pending">Requested</option>
+      <option value="accepted">Accepted</option>
+      <option value="done">Previous</option>
+    </select>
+    <select id="sort-options">
+      <option value="">Sort...</option>
+      <option value="latest">Latest</option>
+      <option value="oldest">Oldest</option>
+    </select>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Sr no.</th>
+        <th>Name</th>
+        <th>Quantity</th>
+        <th>Date</th>
+        <th>Drop Address</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="orderTableBody">
+      <!-- Table rows will be dynamically inserted here -->
+    </tbody>
+  </table>
+</div>
+
+<div class="content-section" id="product-section">
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Search products...">
+    <button type="button" onclick="searchProducts()"><i class="fas fa-search"></i></button>
+    <button type="button" onclick="cancelSearch()">Cancel</button>
+      <select id="sort">
+        <option value="priceAsc"><i class="fas fa-sort"></i>FILTER BY:</option>
+        <option value="priceAsc">Price: Low to High</option>
+        <option value="priceDesc">Price: High to Low</option>
+      </select>
+  </div>
+
+  <div class="pagination">
+    <a href="?page=1" class="active">1</a>
+    <a href="?page=2">2</a>
+    <a href="?page=3">3</a>
+    <a href="?page=4">4</a>
+  </div>
+
+  <div class="product-grid">
+    <!-- Product boxes will be dynamically generated by JavaScript -->
+  </div>
+  <div class="modal-background" id="modalBackground">
+    <div class="modal-form" id="modalForm">
+      <button class="close-btn" onclick="hideOrderForm()">&times;</button>
+      <h2>Order Details</h2>
+      <div class="product-info" id="orderDetails">
+        <!-- Product details will be dynamically inserted here -->
+      </div>
+      <div class="quantity-section">
+        <label for="quantity">Quantity:</label>
+        <input type="number" id="quantity" min="1" value="0" onchange="updateTotal()">
+        <span id="maxStock">(Max: 0)</span>
+    </div>
+      <div class="total-section">
+        <label>Total:</label>
+        <span id="totalPrice">0</span>
+      </div>
+      <div class="address-section">
+        <label for="address">Delivery Address:</label>
+        <textarea id="address" rows="4" cols="50"></textarea>
+      </div>
+      <button  class="buy-btn" type="button" onclick="placeOrder()">Place Order</button>
+    </div>
+  </div>
+</div>
+  
+</div>
+
+<div class="content-section" id="analytics-section">
+  <div class="choose-boxes">
+      <select id="report-type">
+          <option value="products">Report of Products</option>
+          <option value="salesbyme">Report of Sales by Me</option>
+      </select>
+      <select id="timeline">
+          <option value="day">Day</option>
+          <option value="week">Week</option>
+          <option value="month">Month</option>
+      </select>
+  </div>
+  <h2 class="chart-name"></h2>
+  <div class="chart-container">
+      <canvas id="myChart"></canvas>
+  </div>
+  <div style="display: flex;">
+  <div class="choose-boxes" id="company-selection" style="display: block; margin-right: 10px;">
+    <select id="company-selection-option">
+        <option value="all">All Companies</option>
+        <!-- Options for individual companies will be added dynamically -->
+    </select>
+</div>
+<div class="choose-boxes" id="product-selection" style="display: block;">
+    <select id="product-selection-option">
+        <option value="all">All Products</option>
+        <!-- Options for individual products will be added dynamically -->
+    </select>
+</div>
+</div>
+<table id="report-table">
+  <thead>
+      <tr>
+          <th>Sr. No.</th>
+          <th>Name</th>
+          <th>Quantity Sold</th>
+          <th>Total Revenue</th>
+      </tr>
+  </thead>
+  <tbody>
+      <!-- Table rows will be dynamically populated here -->
+  </tbody>
+</table>
+</div>
+
+         <!-- END EDMO HTML (Happy Coding!)-->
+      </main>
+
+      <script>
+        function sortProductsByPriceAsc() {
+          // Create an AJAX request
+          var xhr = new XMLHttpRequest();
+          
+          // Define the URL to fetch sorted products (replace with actual URL)
+          var url = 'php/sort_products.php?sort=asc';
+          
+          // Configure the request
+          xhr.open('GET', url, true);
+          
+          // Define the callback function
+          xhr.onload = function () {
+              if (xhr.status === 200) {
+                  // On success, update the product grid with the sorted products
+                  document.querySelector('.product-grid').innerHTML = xhr.responseText;
+              } else {
+                  // On error, display a message
+                  console.error('Error sorting products: ' + xhr.statusText);
+              }
+          };
+          
+          // Send the request
+          xhr.send();
+      }
+      
+      function sortProductsByPriceDesc() {
+          // Create an AJAX request
+          var xhr = new XMLHttpRequest();
+          
+          // Define the URL to fetch sorted products (replace with actual URL)
+          var url = 'php/sort_products.php?sort=desc';
+          
+          // Configure the request
+          xhr.open('GET', url, true);
+          
+          // Define the callback function
+          xhr.onload = function () {
+              if (xhr.status === 200) {
+                  // On success, update the product grid with the sorted products
+                  document.querySelector('.product-grid').innerHTML = xhr.responseText;
+              } else {
+                  // On error, display a message
+                  console.error('Error sorting products: ' + xhr.statusText);
+              }
+          };
+          
+          // Send the request
+          xhr.send();
+      }
+
+      // Get the select element
+var sortSelect = document.getElementById('sort');
+
+// Add event listener for change event
+sortSelect.addEventListener('change', function() {
+    // Get the selected value
+    var selectedOption = this.value;
+    
+    // Based on the selected value, call the appropriate sorting function
+    if (selectedOption === 'priceAsc') {
+        sortProductsByPriceAsc();
+    } else if (selectedOption === 'priceDesc') {
+        sortProductsByPriceDesc();
+    }
+});
+
+      </script>
+
+
+      <script>
+
+        // Function to handle image upload
+document.getElementById('uploadImage').addEventListener('change', function(event) {
+  const file = event.target.files[0];
+  const formData = new FormData();
+  formData.append('image', file);
+
+  fetch('php/save_image.php', { // Adjust the file name to match your PHP script for uploading image
+    method: 'POST',
+    body: formData
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log('Image uploaded:', data);
+    document.querySelector('.company_logo').src = data.image_path;
+  })
+  .catch(error => console.error('Error uploading image:', error));
+});
+
+
+        // Function to fetch company data
+        function fetchCompanyData() {
+          fetch('php/profile.php') // Adjust the file name to match your PHP script
+            .then(response => response.json())
+            .then(data => {
+              // Update HTML elements with fetched data
+              document.querySelector('.company_logo').src = data.image_path;
+              document.querySelector('.company_name').textContent = data.first_name + " " + data.last_name;
+              document.querySelector('.total_sales_done').textContent = data.total_quantity_sold;
+              document.querySelector('.languages_spoken').textContent = data.languages_spoken;
+              document.querySelector('.area_of_expertise').textContent = data.area_of_expertise;
+              document.querySelector('.communication_skill').textContent = data.communication_skill;
+              document.querySelector('.followed_technique').textContent = data.followed_technique;
+              document.querySelector('.bio').textContent = data.bio;
+              document.querySelector('.address').textContent = data.address;
+              document.querySelector('.phone').textContent = data.phone;
+              document.querySelector('.email').textContent = data.email;
+              document.querySelector('.facebook').textContent = data.facebook;
+              document.querySelector('.twitter').textContent = data.twitter;
+              document.querySelector('.linkedin').textContent = data.linkedin;
+            })
+            .catch(error => console.error('Error fetching company data:', error));
+        }
+
+// Function to toggle edit mode
+function toggleEditMode() {
+  const uploadImageInput = document.getElementById('uploadImage');
+  const uploadImageLabel = document.getElementById('uploadImageLabel');
+
+  // Toggle the display of the input field and label
+  if (uploadImageInput.style.display === 'none') {
+    uploadImageInput.style.display = 'block';
+    uploadImageLabel.style.display = 'block';
+  }
+  const companyNameLabel = document.getElementById('companyNameLabel');
+  companyNameLabel.style.display = 'block';
+
+  const editableFields = document.querySelectorAll('.editable');
+  editableFields.forEach(field => {
+    const currentValue = field.textContent.trim();
+    const inputField = document.createElement('input');
+    inputField.setAttribute('type', 'text');
+    inputField.setAttribute('value', currentValue);
+    field.textContent = '';
+    field.appendChild(inputField);
+  });
+
+  document.getElementById('editButton').style.display = 'none';
+  document.getElementById('doneButton').style.display = 'block';
+}
+
+
+function saveChanges() {
+  const editableFields = document.querySelectorAll('.editable');
+  const newData = {};
+  editableFields.forEach(field => {
+    const fieldName = field.classList[0]; // Use the class name as the field name
+    const newValue = field.querySelector('input').value;
+    newData[fieldName] = newValue;
+    field.textContent = newValue;
+  });
+    // Hide the image and label
+    const imageElement = document.querySelector('.company_logo');
+    const uploadInputElement = document.getElementById('uploadImage');
+    const labelElement = document.querySelector('label[for="uploadImage"]');
+    if (imageElement && uploadInputElement && labelElement) {
+      uploadInputElement.style.display = 'none';
+      labelElement.style.display = 'none';
+    }
+// Hide the company name label
+const companyNameInput = document.querySelector('.company_name.editable');
+const companyNameLabel = document.getElementById('companyNameLabel');
+if (companyNameInput && companyNameLabel) {
+  companyNameLabel.style.display = 'none';
+}
+
+
+  // Send the updated data to the server using fetch or AJAX
+  fetch('php/update_sp_data.php', { // Adjust the file name to match your PHP script
+    method: 'POST',
+    body: JSON.stringify(newData),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(response => response.text())
+  .then(result => {
+    console.log('Changes saved:', result);
+    document.getElementById('editButton').style.display = 'block';
+    document.getElementById('doneButton').style.display = 'none';
+  })
+  .catch(error => console.error('Error saving changes:', error));
+}
+
+
+
+
+// Fetch company data when the page loads
+window.onload = function() {
+  fetchCompanyData();
+};
+
+
+      </script>
+      <script>
+        // JavaScript function to logout
+function logout() {
+  // AJAX request to logout PHP script
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', 'php/logout.php', true);
+  xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+          // Redirect to main/index.html page after logout
+          window.location.href = '../main/index.html';
+      }
+  };
+  xhr.send();
+}
+      </script>
+
+
+      <script>
+
+        document.addEventListener("DOMContentLoaded", function() {
+          const chooseBox1 = document.getElementById("choose-box-1");
+          const sortOptions = document.getElementById("sort-options");
+          const orderTableBody = document.getElementById("orderTableBody");
+      
+          // Function to fetch data from the server based on selected status
+          function fetchData(status) {
+              fetch(`php/fetch_orders.php?status=${status}`)
+                  .then(response => response.json())
+                  .then(data => populateTable(data))
+                  .catch(error => console.error('Error fetching data:', error));
+          }
+      
+          // Function to populate the table with data
+          function populateTable(data) {
+              orderTableBody.innerHTML = ""; // Clear existing rows
+              data.forEach((row, index) => {
+                  const tr = document.createElement("tr");
+                  tr.innerHTML = `
+                      <td>${index + 1}</td>
+                      <td>${row.product_name}</td>
+                      <td>${row.quantity}</td>
+                      <td>${row.order_date}</td>
+                      <td>${row.drop_address}</td>
+                      <td>${getButtonHTML(row.status, row.order_id)}</td>
+                  `;
+                  orderTableBody.appendChild(tr);
+              });
+          }
+      
+          // Function to get button HTML based on status
+          function getButtonHTML(status, orderId) {
+              switch (status) {
+                  case "Pending":
+                      return `<button class="change-status-btn" data-order-id="${orderId}" data-new-status="Cancel">Cancel Order</button>`;
+                  case "Accepted":
+                      return `<p>Executing order</p>`;
+                  case "Done":
+                      return `<a href="feedback.html?data-order-id=${orderId}" class="feedback-link" data-order-id="${orderId}">Feedback</a>`;
+                  default:
+                      return "";
+              }
+          }
+      
+          // Function to update the order status
+          function updateOrderStatus(orderId, newStatus) {
+              fetch(`php/update_order_status.php`, {
+                      method: 'POST',
+                      headers: {
+                          'Content-Type': 'application/x-www-form-urlencoded',
+                      },
+                      body: `orderId=${orderId}&status=${newStatus}`,
+                  })
+                  .then(response => {
+                      if (response.ok) {
+                          // If the update is successful, refresh the table
+                          fetchData(chooseBox1.value);
+                      } else {
+                          console.error('Failed to update order status');
+                      }
+                  })
+                  .catch(error => console.error('Error updating order status:', error));
+          }
+      
+          // Initially fetch and populate the table with data based on the default status ("Pending")
+          fetchData(chooseBox1.value);
+      
+          // Event listener for status change
+          chooseBox1.addEventListener("change", function() {
+              const selectedStatus = this.value;
+              fetchData(selectedStatus);
+          });
+      
+          // Event listener for sorting
+          sortOptions.addEventListener("change", function() {
+              const selectedSort = this.value;
+              const rows = Array.from(orderTableBody.querySelectorAll("tr"));
+              if (selectedSort === "latest") {
+                  rows.sort((a, b) => new Date(b.cells[3].textContent) - new Date(a.cells[3].textContent));
+              } else if (selectedSort === "oldest") {
+                  rows.sort((a, b) => new Date(a.cells[3].textContent) - new Date(b.cells[3].textContent));
+              }
+              orderTableBody.innerHTML = ""; // Clear existing rows
+              rows.forEach(row => orderTableBody.appendChild(row));
+          });
+      
+          // Event delegation to handle button clicks
+          orderTableBody.addEventListener("click", function(event) {
+              if (event.target.classList.contains("change-status-btn")) {
+                  const orderId = event.target.dataset.orderId;
+                  const newStatus = event.target.dataset.newStatus;
+                  if (newStatus === "Cancelled") {
+                      // Remove the row from the table
+                      const row = event.target.closest("tr");
+                      row.parentNode.removeChild(row);
+                  } else {
+                      // Update the order status
+                      updateOrderStatus(orderId, newStatus);
+                  }
+              }
+          });
+      
+      });
+      
+      
+        
+      </script>
+      <!-- Script JS -->
+      <script>
+
+        var data;
+
+        function showOrderForm(productName, stock) {
+          // Display modal background and form
+          document.getElementById('modalBackground').style.display = 'block';
+          document.getElementById('modalForm').style.display = 'block';
+      
+          // Make AJAX request to fetch product details
+          var xhr = new XMLHttpRequest();
+          var url = 'php/fetch_product_name.php?productName=' + encodeURIComponent(productName);
+          xhr.open('GET', url, true);
+          xhr.onload = function() {
+              if (xhr.status === 200) {
+                  data = JSON.parse(xhr.responseText);
+                  if (data) {
+                      // Populate order details in the form
+                      var orderDetails = document.getElementById('orderDetails');
+                      orderDetails.innerHTML = '<img src="../company/images/' + data.image_url + '" alt="Product Image">' +
+                          '<h3>' + data.product_name + '</h3>' +
+                          '<p>Description: ' + data.description + '</p>' +
+                          '<p>Price: ' + data.price + ' Stock: ' + data.stock + '</p>' +
+                          '<p>Company: ' + data.company_name + '</p>';
+                      
+                      // Set the max attribute of the quantity input field to match the available stock
+                      document.getElementById('quantity').value = 0;
+                      document.getElementById('quantity').max = data.stock;
+                      document.getElementById('maxStock').textContent = '(Max: ' + data.stock + ')';
+                  } else {
+                      console.error('Product details not found.');
+                  }
+              } else {
+                  console.error('Error fetching product details: ' + xhr.statusText);
+              }
+          };
+          xhr.send();
+      }
+      
+        function updateTotal() {
+            if (!data) {
+                console.error('Product data is not available.');
+                return;
+            }
+        
+            var quantity = parseInt(document.getElementById('quantity').value);
+            var pricePerUnit = parseFloat(data.price);
+            var totalPrice = quantity * pricePerUnit;
+        
+            document.getElementById('totalPrice').textContent = totalPrice.toFixed(2);
+        }
+        
+      
+
+      function hideOrderForm() {
+          // Hide modal background and form
+          document.getElementById('modalBackground').style.display = 'none';
+          document.getElementById('modalForm').style.display = 'none';
+      }
+      
+      
+      function placeOrder() {
+        // Retrieve order details
+        var productName = data.product_name;
+        var companyName = data.company_name;
+        var quantity = parseInt(document.getElementById('quantity').value);
+        var totalPrice = parseFloat(document.getElementById('totalPrice').textContent);
+        var address = document.getElementById('address').value;
+        var date = new Date().toISOString().slice(0, 19).replace('T', ' '); // Today's date
+    
+        // Make AJAX request to save order details
+        var xhr = new XMLHttpRequest();
+        var url = 'php/save_order.php';
+        var params = 'productName=' + encodeURIComponent(productName) +
+                     '&companyName=' + encodeURIComponent(companyName) +
+                     '&quantity=' + quantity +
+                     '&totalPrice=' + totalPrice +
+                     '&address=' + encodeURIComponent(address) +
+                     '&date=' + encodeURIComponent(date);
+        xhr.open('POST', url, true);
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                // Handle success response
+                var response = xhr.responseText;
+                console.log(response); // Log the response
+                alert('Order placed successfully!');
+                hideOrderForm(); // Optionally, hide the form after successful order placement
+            } else {
+                // Handle error response
+                console.error('Error placing order: ' + xhr.statusText);
+            }
+        };
+        xhr.send(params);
+    }
+    
+
+
+
+        function searchProducts() {
+          var searchInput = document.getElementById('searchInput').value;
+          var xhr = new XMLHttpRequest();
+          var url = 'php/search_products.php?search=' + encodeURIComponent(searchInput);
+          xhr.open('GET', url, true);
+          xhr.onload = function () {
+              if (xhr.status === 200) {
+                  var productGrid = document.querySelector('.product-grid');
+                  productGrid.innerHTML = ''; // Clear previous products
+                  productGrid.innerHTML = xhr.responseText; // Add new search results
+              } else {
+                  console.error('Error searching products: ' + xhr.statusText);
+              }
+          };
+          xhr.send();
+        }
+        
+
+        function cancelSearch() {
+          document.getElementById('searchInput').value = ''; // Clear the search input field
+          loadProducts(1); // Load default products
+      }
+        // Function to load products via AJAX
+        function loadProducts(page) {
+            // Create an AJAX request
+            var xhr = new XMLHttpRequest();
+    
+            // Define the URL to fetch products (replace with actual URL)
+            var url = 'php/display_product.php?page=' + page;
+    
+            // Configure the request
+            xhr.open('GET', url, true);
+    
+            // Define the callback function
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    // On success, update the product grid with the fetched products
+                    document.querySelector('.product-grid').innerHTML = xhr.responseText;
+                } else {
+                    // On error, display a message
+                    console.error('Error loading products: ' + xhr.statusText);
+                }
+            };
+    
+            // Send the request
+            xhr.send();
+        }
+    
+        // Load products when the page is loaded
+        window.addEventListener('load', function () {
+            // Initially load the first page of products
+            loadProducts(1);
+    
+            // Pagination: Listen for click events on pagination links
+            var paginationLinks = document.querySelectorAll('.pagination a');
+            paginationLinks.forEach(function (link) {
+                link.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    var page = this.getAttribute('href').split('=')[1]; // Extract page number from href
+                    loadProducts(page); // Load products for the selected page
+    
+                    // Update active class for pagination links
+                    document.querySelectorAll('.pagination a').forEach(function (paginationLink) {
+                        paginationLink.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                });
+            });
+        });
+    </script>
+    
+      <script src="./js/script.js" ></script>
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      <script>
+
+        document.addEventListener('DOMContentLoaded', function() {
+          const reportTypeSelect = document.getElementById('report-type');
+          const timelineSelect = document.getElementById('timeline');
+          const chartName = document.querySelector('.chart-name');
+          const chartContainer = document.querySelector('.chart-container');
+          const reportTableBody = document.querySelector('#report-table tbody');
+          const companySelection = document.getElementById('company-selection');
+          const companySelectionOption = document.getElementById('company-selection-option');
+          const productSelection = document.getElementById('product-selection');
+          const productSelectionOption = document.getElementById('product-selection-option');
+          let currentUser = ''; // Set the current user based on your authentication method
+      
+          // Initialize chart
+          const ctx = document.getElementById('myChart').getContext('2d');
+          let myChart;
+      
+          // Function to fetch and update data
+          function fetchData() {
+              const reportType = reportTypeSelect.value;
+              const timeline = timelineSelect.value;
+              const company = companySelectionOption.value;
+              const product = productSelectionOption.value;
+      
+              // AJAX request to fetch data from server
+              const xhr = new XMLHttpRequest();
+              let url = `php/fetch_data.php?type=${reportType}&timeline=${timeline}`;
+              if (reportType === 'products' && company !== 'all') {
+                  url += `&company=${company}`;
+              }
+              if (reportType === 'products' && product !== 'all') {
+                  url += `&product=${product}`;
+              }
+              xhr.open('GET', url, true);
+              xhr.onload = function() {
+                  if (xhr.status === 200) {
+                      const data = JSON.parse(xhr.responseText);
+      
+                      // Update chart name
+                      chartName.textContent = 'Report of ' + reportType.charAt(0).toUpperCase() + reportType.slice(1);
+      
+                      // Update chart
+                      if (myChart) {
+                          myChart.destroy(); // Destroy existing chart instance
+                      }
+                      myChart = new Chart(ctx, {
+                          type: 'bar',
+                          data: {
+                              labels: data.labels,
+                              datasets: [{
+                                  label: 'Quantity Sold',
+                                  data: data.data.quantity,
+                                  backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                                  borderColor: 'rgb(255, 99, 132)',
+                                  borderWidth: 1
+                              },
+                              {
+                                  label: 'Total Revenue',
+                                  data: data.data.revenue,
+                                  backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                  borderColor: 'rgb(54, 162, 235)',
+                                  borderWidth: 1
+                              }]
+                          },
+                          options: {
+                              scales: {
+                                  y: {
+                                      beginAtZero: true
+                                  }
+                              }
+                          }
+                      });
+      
+                      // Update table
+                      reportTableBody.innerHTML = '';
+                      data.labels.forEach((label, index) => {
+                          const row = document.createElement('tr');
+                          row.innerHTML = `
+                              <td>${index + 1}</td> <!-- Serial number -->
+                              <td>${label}</td>
+                              <td>${data.data.quantity[index]}</td>
+                              <td>${data.data.revenue[index]}</td>
+                          `;
+                          reportTableBody.appendChild(row);
+                      });
+      
+                  } else {
+                      console.error('Error fetching data: ' + xhr.statusText);
+                  }
+              };
+              xhr.send();
+          }
+      
+          // Function to fetch all company names and populate the dropdown
+          function fetchCompanyNames() {
+              const xhr = new XMLHttpRequest();
+              let url = 'php/fetch_company_names.php';
+              if (reportTypeSelect.value === 'salesbyme') {
+                  // Add logic to fetch companies associated with the current user
+                  url += '?salesperson=' + currentUser; // Modify this according to your authentication method
+              }
+              xhr.open('GET', url, true);
+              xhr.onload = function() {
+                  if (xhr.status === 200) {
+                      const companyNames = JSON.parse(xhr.responseText);
+                      companySelectionOption.innerHTML = '<option value="all">All Companies</option>';
+                      companyNames.forEach(companyName => {
+                          const option = document.createElement('option');
+                          option.value = companyName;
+                          option.textContent = companyName;
+                          companySelectionOption.appendChild(option);
+                      });
+                      fetchData(); // Fetch data after populating company selection
+                  } else {
+                      console.error('Error fetching company names: ' + xhr.statusText);
+                  }
+              };
+              xhr.send();
+          }
+      
+          // Function to fetch all product names and populate the dropdown
+          function fetchProductNames() {
+              const xhr = new XMLHttpRequest();
+              let url = 'php/fetch_product_names.php';
+              if (reportTypeSelect.value === 'salesbyme') {
+                  // Add logic to fetch products associated with the current user
+                  url += '?salesperson=' + currentUser; // Modify this according to your authentication method
+              }
+              xhr.open('GET', url, true);
+              xhr.onload = function() {
+                  if (xhr.status === 200) {
+                      const productNames = JSON.parse(xhr.responseText);
+                      productSelectionOption.innerHTML = '<option value="all">All Products</option>';
+                      productNames.forEach(productName => {
+                          const option = document.createElement('option');
+                          option.value = productName;
+                          option.textContent = productName;
+                          productSelectionOption.appendChild(option);
+                      });
+                      fetchData(); // Fetch data after populating product selection
+                  } else {
+                      console.error('Error fetching product names: ' + xhr.statusText);
+                  }
+              };
+              xhr.send();
+          }
+          
+          // Event listeners for select boxes
+          reportTypeSelect.addEventListener('change', function() {
+              companySelection.style.display = 'block';
+              productSelection.style.display = 'block';
+              fetchCompanyNames(); // Fetch company names when report type is products
+              fetchProductNames();
+          });
+      
+          timelineSelect.addEventListener('change', fetchData);
+          companySelectionOption.addEventListener('change', fetchData);
+          productSelectionOption.addEventListener('change', fetchData);
+      
+          // Initial data fetch on page load
+  
+          fetchData();
+      });
+      
+      
+      </script>
+      <!--$%analytics%$-->
+   </body>
+</html>

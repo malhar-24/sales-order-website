@@ -1,0 +1,409 @@
+
+  #product-section {
+    text-align: center;
+  }
+  
+  .search-bar {
+    margin: 0px auto;
+  }
+  
+  .search-bar input[type="text"] {
+    padding: 10px;
+    width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .search-bar button {
+    padding: 10px 20px;
+    background-color:  #ff4500;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+  }
+  
+  .search-bar button:hover {
+    background-color:  #ff6d38;
+  }
+
+  .pagination {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .pagination a {
+    display: inline-block;
+    padding: 8px 16px;
+    margin: 0 4px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    text-decoration: none;
+    color: #333;
+  }
+  
+  .pagination a.active {
+    background-color:#FF0000;
+    color: white;
+  }
+  
+  .pagination a:hover {
+    background-color: #F04F5C;
+    color: white;
+  }
+  
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 5 columns */
+    gap: 20px; /* Gap between product boxes */
+    margin-top: 20px;
+  }
+  
+  .product-box {
+    width: 200px; /* Fixed width */
+    height: 250px; /* Fixed height */
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* Align content to the bottom */
+  }
+  
+  .product-img img {
+    width: 85%;
+    height: 90px;
+  }
+  
+  .product-info {
+    text-align: center;
+  }
+  
+  .product-info h3 {
+    margin-top: 10px;
+  }
+  
+  .buy-btn {
+    padding: 8px 20px;
+    width: 50%;
+    background-color: #FF0000;
+    color: white;
+    border: 2px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .buy-btn:hover {
+    background-color:#F04F5C ;
+  }
+
+
+  .modal-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent black background */
+    display: none; /* Hide by default */
+  }
+  
+  .modal-form {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    min-width: 34%;
+    min-height: 54%;
+    max-height: 74%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    padding-top: 40px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    display: none; /* Hide by default */
+    overflow-y: auto; /* Add vertical scrollbar */
+  }
+  
+  .modal-form h2 {
+    margin-top: 0;
+  }
+  .modal-form img {
+    width: 90%;
+    height:300px;
+  }
+  
+  .modal-form button {
+    margin-top: 10px;
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 0px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 30px;
+    cursor: pointer;
+    color: #888;
+  }
+
+
+  /* CSS for the order details */
+#orderDetails {
+  text-align: center; /* Center align the content */
+}
+
+#orderDetails img {
+  width: 100%; /* Make the image fill the container */
+  max-width: 200px; /* Limit the image width */
+  height: auto; /* Maintain aspect ratio */
+  margin-bottom: 10px; /* Add space below the image */
+}
+
+#orderDetails h3 {
+  font-size: 1.2em; /* Increase the font size for product name */
+  margin-bottom: 5px; /* Add space below the product name */
+}
+
+#orderDetails p {
+  margin-bottom: 5px; /* Add space below each paragraph */
+}
+
+#orderDetails p:last-child {
+  margin-bottom: 0; /* Remove margin bottom for the last paragraph */
+}
+/* CSS for the quantity section */
+.quantity-section {
+  margin-bottom: 10px;
+}
+
+.quantity-section label {
+  display: inline-block;
+  margin-bottom: 5px;
+}
+
+.quantity-section input {
+  width: 60px;
+}
+
+/* CSS for the total section */
+.total-section {
+  margin-bottom: 10px;
+}
+
+.total-section label {
+  display: inline-block;
+  margin-bottom: 5px;
+}
+
+/* CSS for the address section */
+.address-section {
+  margin-bottom: 20px;
+}
+
+.address-section label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.address-section textarea {
+  width: 100%;
+  resize: vertical;
+}
+
+
+  section {
+    margin-bottom: 2rem;
+  }
+  
+  .choose-boxes {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+  
+  select {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+  
+  th,
+  td {
+    padding: 2.4rem;
+    text-align: left;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  th {
+    background-color: #f2f2f2;
+  }
+  
+  .change-status-btn {
+    padding: 8px 12px;
+    background-color: #ff1100;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+  }
+  
+  .change-status-btn:hover {
+    background-color: #ff6d38;
+  }
+
+
+
+
+
+  #analytics-section {
+    display: flex;
+    flex-direction: column;
+    margin: 2rem;
+  }
+  
+  #analytics-section .choose-boxes {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+  
+  #analytics-section select {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+  
+  #analytics-section .chart-name {
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+  
+  #analytics-section .chart-container {
+    width: 100%;
+    height: 300px; /* Adjust height as needed */
+  }
+  
+  #analytics-section table {
+    width: 100%;
+    border-collapse: collapse;
+    border-top: 1px solid #ccc;
+  }
+  
+  #analytics-section th,
+  #analytics-section td {
+    padding: 0.5rem;
+    text-align: left;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  #analytics-section th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+  
+  #analytics-section .chart-column {
+    text-align: center;
+    cursor: pointer;
+  }
+  
+  /* Additional styles for hover/active states on buttons, etc. */
+  
+  #analytics-section .highlight {
+    background-color: #f5f5f5;
+  }
+  
+  #analytics-section .active {
+    background-color: #ddd;
+  }
+
+
+
+
+  .content-section {
+    display: block;
+    width: 80%;
+  }
+  
+  .intro, .dic, .social-links, .contact {
+    box-sizing: border-box;
+    padding: 30px;
+  }
+  
+  .company_logo {
+    width: 100px; /* Adjust size as needed */
+    height: 100px; /* Adjust size as needed */
+    border-radius: 50%; /* Make it round */
+    border: 2px solid #000000; 
+  }
+  
+  .sub-intro {
+    text-align: left;
+  }
+  .intro {
+    width: 35%;
+    height: 92vh;
+    float: left;
+    background-color: #f5f5f5;
+    text-align: center;
+  }
+  
+  .dic {
+    margin-left: 35%;
+    padding-right: 7%;
+    height: 48vh;
+  }
+  
+  
+  .social-links, .contact {
+    padding-left: 40px;
+    width: 30%;
+    height: 20vh;
+    float: left;
+  }
+
+  .intro h2, p {
+    padding: 13px;
+  }
+  
+  /* Clear the float to prevent layout issues */
+  .clearfix::after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  .contact{
+    width: 33%;
+  }
+
+  #editButton, #doneButton {
+    position: absolute;
+    width: 60px;
+    bottom: 15px;
+    right: 30px;
+    margin: 20px;
+    padding: 10px;
+    background-color: #ff2600;
+    color: #fff;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+  }
+  
+

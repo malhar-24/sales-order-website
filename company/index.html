@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="author" content="CodeHim">
+      <title> SaleSyncX </title>
+      <link rel="stylesheet" href="./css/style.css">
+      <link rel="stylesheet" href="./css/style2.css">
+      <link rel="stylesheet" href="./css/demo.css">
+      <link rel='stylesheet' href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css'>
+      <link rel='stylesheet' href='https://pro.fontawesome.com/releases/v6.0.0-beta3/css/all.css'>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel='stylesheet' href='https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&amp;display=swap'>
+   </head>
+   <body>
+
+    <?php
+// Start the session at the beginning of the script
+session_start();
+?>
+      <main class="cd__main">
+         <nav class="sidebar close">
+  <header>
+    <div class="image-text"> <a href="#" class="text-logo-a">
+        <span class="image">
+          <img src="../images/icons8-total-sales-64.png" alt="">
+        </span>
+        <div class="text logo-text">
+          <span class="name">SaleSyncX</span>
+      </a>
+    </div>
+    </div>
+    <i class='bx bx-chevron-right toggle'></i>
+  </header>
+  <div class="menu-bar">
+        <div class="menu">
+          <ul class="menu-links">
+            <li class="nav-link">
+              <a href="#">
+                <i class='material-icons icon'>person</i>
+                <span class="text nav-text">Profile</span>
+              </a>
+            </li>
+            <li class="nav-link">
+              <a href="#">
+                <i class='material-icons icon'> local_shipping</i>
+                <span class="text nav-text">Orders</span>
+              </a>
+            </li>
+            <li class="nav-link">
+              <a href="#">
+                <i class='material-icons icon'>shopping_cart</i>
+                <span class="text nav-text">Products</span>
+              </a>
+            </li>
+            <li class="nav-link">
+              <a href="#">
+                <i class='material-icons icon'>pie_chart</i>
+                <span class="text nav-text">Analytics</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="bottom-content">
+          <li class="">
+              <a href="#" onclick="logout();">
+                  <i class='material-icons icon'>exit_to_app</i>
+                  <span class="text nav-text">Logout</span>
+              </a>
+          </li>
+      </div>
+  </div>
+</nav>
+
+<div class="content-section" id="profile-section">
+  <div class="intro">
+    <img src="#" alt="Company Logo" class="company_logo">
+    <label for="uploadImage" id="uploadImageLabel" style="display: none;">Upload Image</label>
+    <input type="file" accept="image/*" id="uploadImage" style="display: none;">
+      <br>
+      <label for="companyNameInput" id="companyNameLabel" style="display: none;">Enter Company Name:</label>
+      <h2 class="company_name editable"></h2>
+      <label for="missionStatementInput" id="missionStatementLabel" style="display: none;">Enter Mission Statement:</label>
+      <p class="mission_statement editable"></p>
+      <div class="sub-intro">
+          <p class="">MD/CEO : <span class="ceo_name editable"></span></p>
+          <p class="">Founded in : <span class="founded_date editable"></span></p>
+          <p class="">Industry : <span class="industry editable"></span></p>
+          <p class="">Number of Employees : <span class="num_employees editable"></span></p>
+          <p class="">Revenue : <span class="revenue editable"></span></p>
+      </div>
+  </div>
+  <div class="dic">
+    <h1>Description</h1>
+    <p class="description editable"></p>
+  </div>
+  <div class="contact">
+      <h2>Contact us :</h2>
+      <p class="">Address : <span class="location editable"></span></p>
+      <p class="">Phone : <span class="phone editable"></span></p>
+      <p class="">Email : <span class="email editable"></span></p>
+      <p class="">Website : <a href="#" class="website editable"></a></p>
+  </div>
+  <div class="social-links">
+    <h2>Social Links :</h2>
+    <p class="">Facebook : <a href="#" class="facebook editable"></a></p>
+    <p class="">Twitter : <a href="#" class="twitter editable"></a></p>
+    <p class="">LinkedIn : <a href="#" class="linkedin editable"></a></p>
+</div>
+  <button id="editButton" onclick="toggleEditMode()">
+      <i class="fas fa-edit"></i> Edit
+  </button>
+  <button id="doneButton" style="display: none;" onclick="saveChanges()">
+      <i class="fas fa-check"></i> Done
+  </button>
+</div>
+
+
+
+
+
+<div class="content-section" id="revenue-section">
+  <div class="choose-boxes">
+    <select id="choose-box-1">
+      <option value="Pending">Requested</option>
+      <option value="accepted">Accepted</option>
+      <option value="done">Previous</option>
+    </select>
+    <select id="sort-options">
+      <option value="">Sort...</option>
+      <option value="latest">Latest</option>
+      <option value="oldest">Oldest</option>
+    </select>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Sr no.</th>
+        <th>Name</th>
+        <th>Quantity</th>
+        <th>Date</th>
+        <th>Drop Address</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="orderTableBody">
+      <!-- Table rows will be dynamically inserted here -->
+    </tbody>
+  </table>
+</div>
+
+<div class="content-section" id="product-section">
+  <section class="product-section">
+      <div class="product-row">
+          <div class="product-box add-box">
+              + ADD MORE
+          </div>
+          <div class="product-row" id="product-container">
+          </div>
+      </div>
+  </section>
+</div>
+
+<!-- Form -->
+<div id="productFormContainer" class="product-form-container">
+  <div class="product-form">
+    <span class="close-form">&times;</span>
+    <form id="productForm" class="form" action="php/product.php" method="POST" enctype="multipart/form-data">
+      <input type="file" name="image" accept="image/*" required>
+      <input type="text" name="name" placeholder="Product Name" required>
+      <textarea name="description" placeholder="Description" required></textarea>
+      <input type="number" name="price" placeholder="Price" required>
+      <input type="number" name="quantity" placeholder="Quantity in Stock" required>
+      <button type="submit">Add</button>
+    </form>
+  </div>
+</div>
+
+
+<div class="content-section" id="analytics-section">
+  <div class="choose-boxes">
+      <select id="report-type">
+          <option value="products">Report of Products</option>
+          <option value="salespersons">Report of Salespersons</option>
+      </select>
+      <select id="timeline">
+          <option value="day">Day</option>
+          <option value="week">Week</option>
+          <option value="month">Month</option>
+      </select>
+  </div>
+  <h2 class="chart-name"></h2>
+  <div class="chart-container">
+      <canvas id="myChart"></canvas>
+  </div>
+  <div class="choose-boxes">
+  <select id="product-selection" style="display: block;">
+    <option value="all">All Products</option>
+    <!-- Options for individual products will be added dynamically -->
+    </select>
+</div>
+<table id="report-table">
+  <thead>
+      <tr>
+          <th>Sr. No.</th>
+          <th>Name</th>
+          <th>Quantity Sold</th>
+          <th>Total Revenue</th>
+      </tr>
+  </thead>
+  <tbody>
+      <!-- Table rows will be dynamically populated here -->
+  </tbody>
+</table>
+</div>
+
+
+      </main>
+      <script>
+
+        // Function to handle image upload
+document.getElementById('uploadImage').addEventListener('change', function(event) {
+  const file = event.target.files[0];
+  const formData = new FormData();
+  formData.append('image', file);
+
+  fetch('php/save_image.php', { // Adjust the file name to match your PHP script for uploading image
+    method: 'POST',
+    body: formData
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log('Image uploaded:', data);
+    document.querySelector('.company_logo').src = data.image_path;
+  })
+  .catch(error => console.error('Error uploading image:', error));
+});
+
+
+        // Function to fetch company data
+function fetchCompanyData() {
+  fetch('php/profile.php') // Adjust the file name to match your PHP script
+    .then(response => response.json())
+    .then(data => {
+// Update the HTML elements with fetched data
+document.querySelector('.company_logo').src = data.image_path;
+document.querySelector('.company_name').textContent = data.company_name;
+document.querySelector('.mission_statement').textContent = data.mission_statement;
+document.querySelector('.ceo_name').textContent = data.ceo_name;
+document.querySelector('.founded_date').textContent = data.founded_date;
+document.querySelector('.industry').textContent = data.industry;
+document.querySelector('.num_employees').textContent = data.num_employees;
+document.querySelector('.revenue').textContent = data.revenue;
+document.querySelector('.description').textContent = data.description;
+document.querySelector('.location').textContent = data.location;
+document.querySelector('.phone').textContent = data.phone;
+document.querySelector('.email').textContent = data.email;
+document.querySelector('.website').textContent = data.website;
+document.querySelector('.facebook').textContent = data.facebook;
+document.querySelector('.twitter').textContent = data.twitter;
+document.querySelector('.linkedin').textContent = data.linkedin;
+
+    })
+    .catch(error => console.error('Error fetching company data:', error));
+}
+
+// Function to toggle edit mode
+function toggleEditMode() {
+  const uploadImageInput = document.getElementById('uploadImage');
+  const uploadImageLabel = document.getElementById('uploadImageLabel');
+
+  // Toggle the display of the input field and label
+  if (uploadImageInput.style.display === 'none') {
+    uploadImageInput.style.display = 'block';
+    uploadImageLabel.style.display = 'block';
+  }
+  const companyNameLabel = document.getElementById('companyNameLabel');
+  companyNameLabel.style.display = 'block';
+
+  const missionStatementLabel = document.getElementById('missionStatementLabel');
+  missionStatementLabel.style.display = 'block';
+
+  const editableFields = document.querySelectorAll('.editable');
+  editableFields.forEach(field => {
+    const currentValue = field.textContent.trim();
+    const inputField = document.createElement('input');
+    inputField.setAttribute('type', 'text');
+    inputField.setAttribute('value', currentValue);
+    field.textContent = '';
+    field.appendChild(inputField);
+  });
+
+  document.getElementById('editButton').style.display = 'none';
+  document.getElementById('doneButton').style.display = 'block';
+}
+
+
+// Function to save changes
+function saveChanges() {
+  const editableFields = document.querySelectorAll('.editable');
+  const newData = {};
+  editableFields.forEach(field => {
+    const fieldName = field.classList[0]; // Use the class name as the field name
+    const newValue = field.querySelector('input').value;
+    newData[fieldName] = newValue;
+    field.textContent = newValue;
+  });
+    // Hide the image and label
+    const imageElement = document.querySelector('.company_logo');
+    const uploadInputElement = document.getElementById('uploadImage');
+    const labelElement = document.querySelector('label[for="uploadImage"]');
+    if (imageElement && uploadInputElement && labelElement) {
+      uploadInputElement.style.display = 'none';
+      labelElement.style.display = 'none';
+    }
+// Hide the company name label
+const companyNameInput = document.querySelector('.company_name.editable');
+const companyNameLabel = document.getElementById('companyNameLabel');
+if (companyNameInput && companyNameLabel) {
+  companyNameLabel.style.display = 'none';
+}
+
+// Hide the mission statement label
+const missionStatementInput = document.querySelector('.mission_statement.editable');
+const missionStatementLabel = document.getElementById('missionStatementLabel');
+if (missionStatementInput && missionStatementLabel) {
+  missionStatementLabel.style.display = 'none';
+}
+
+
+  // Send the updated data to the server using fetch or AJAX
+  fetch('php/update_company_data.php', { // Adjust the file name to match your PHP script
+    method: 'POST',
+    body: JSON.stringify(newData),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(response => response.text())
+  .then(result => {
+    console.log('Changes saved:', result);
+    document.getElementById('editButton').style.display = 'block';
+    document.getElementById('doneButton').style.display = 'none';
+  })
+  .catch(error => console.error('Error saving changes:', error));
+}
+
+// Fetch company data when the page loads
+window.onload = function() {
+  fetchCompanyData();
+};
+
+
+      </script>
+
+      <script>
+        // JavaScript function to logout
+function logout() {
+  // AJAX request to logout PHP script
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', 'php/logout.php', true);
+  xhr.onreadystatechange = function () {
+      if (xhr.readyState === 4 && xhr.status === 200) {
+          // Redirect to main/index.html page after logout
+          window.location.href = '../main/index.html';
+      }
+  };
+  xhr.send();
+}
+      </script>
+      <script>
+        document.addEventListener("DOMContentLoaded", function() {
+          const chooseBox1 = document.getElementById("choose-box-1");
+          const sortOptions = document.getElementById("sort-options");
+          const orderTableBody = document.getElementById("orderTableBody");
+        
+          // Function to fetch data from the server based on selected status
+          function fetchData(status) {
+            fetch(`php/fetch_orders.php?status=${status}`)
+              .then(response => response.json())
+              .then(data => populateTable(data))
+              .catch(error => console.error('Error fetching data:', error));
+          }
+        
+          // Function to populate the table with data
+          function populateTable(data) {
+            orderTableBody.innerHTML = ""; // Clear existing rows
+            data.forEach((row, index) => {
+              const tr = document.createElement("tr");
+              tr.innerHTML = `
+                <td>${index + 1}</td>
+                <td>${row.product_name}</td>
+                <td>${row.quantity}</td>
+                <td>${row.order_date}</td>
+                <td>${row.drop_address}</td>
+                <td>${getButtonHTML(row.status, row.order_id)}</td>
+              `;
+              orderTableBody.appendChild(tr);
+            });
+          }
+        
+          // Function to get button HTML based on status
+          function getButtonHTML(status, orderId) {
+            switch (status) {
+              case "Pending":
+                return `<button class="change-status-btn" data-order-id="${orderId}" data-new-status="Accepted">Accept</button>`;
+              case "Accepted":
+                return `<button class="change-status-btn" data-order-id="${orderId}" data-new-status="Done">Done</button>`;
+              case "Done":
+                return `<p>-<p>`;
+              default:
+                return "";
+            }
+          }
+        
+          // Function to update the order status
+          function updateOrderStatus(orderId, newStatus) {
+            fetch(`php/update_order_status.php`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+              },
+              body: `orderId=${orderId}&status=${newStatus}`,
+            })
+            .then(response => {
+              if (response.ok) {
+                // If the update is successful, refresh the table
+                fetchData(chooseBox1.value);
+              } else {
+                console.error('Failed to update order status');
+              }
+            })
+            .catch(error => console.error('Error updating order status:', error));
+          }
+        
+          // Initially fetch and populate the table with data based on the default status ("Pending")
+          fetchData(chooseBox1.value);
+        
+          // Event listener for status change
+          chooseBox1.addEventListener("change", function() {
+            const selectedStatus = this.value;
+            fetchData(selectedStatus);
+          });
+        
+          // Event listener for sorting
+          sortOptions.addEventListener("change", function() {
+            const selectedSort = this.value;
+            const rows = Array.from(orderTableBody.querySelectorAll("tr"));
+            if (selectedSort === "latest") {
+              rows.sort((a, b) => new Date(b.cells[3].textContent) - new Date(a.cells[3].textContent));
+            } else if (selectedSort === "oldest") {
+              rows.sort((a, b) => new Date(a.cells[3].textContent) - new Date(b.cells[3].textContent));
+            }
+            orderTableBody.innerHTML = ""; // Clear existing rows
+            rows.forEach(row => orderTableBody.appendChild(row));
+          });
+        
+          // Event delegation to handle button clicks
+          orderTableBody.addEventListener("click", function(event) {
+            if (event.target.classList.contains("change-status-btn")) {
+              const orderId = event.target.dataset.orderId;
+              const newStatus = event.target.dataset.newStatus;
+              updateOrderStatus(orderId, newStatus);
+            }
+          });
+        
+        });
+        
+      </script>
+      <!-- Script JS -->
+      <script>
+
+        // Function to load products via AJAX
+        function loadProducts() {
+            // Create an AJAX request
+            var xhr = new XMLHttpRequest();
+    
+            // Define the URL to fetch products (replace with actual URL)
+            var url = '../company/php/product_display.php';
+    
+            // Configure the request
+            xhr.open('POST', url, true);
+            xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    
+            // Define the callback function
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    // On success, update the product container with the fetched products
+                    document.getElementById('product-container').innerHTML = xhr.responseText;
+                } else {
+                    // On error, display a message
+                    console.error('Error loading products: ' + xhr.statusText);
+                }
+            };
+    
+            // Send the request
+            xhr.send();
+        }
+    
+        // Load products when the page is loaded
+        window.addEventListener('load', function () {
+            loadProducts();
+        });
+    </script>
+      <script src="./js/script.js" ></script>
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          const reportTypeSelect = document.getElementById('report-type');
+          const timelineSelect = document.getElementById('timeline');
+          const chartName = document.querySelector('.chart-name');
+          const chartContainer = document.querySelector('.chart-container');
+          const reportTableBody = document.querySelector('#report-table tbody');
+          const productSelection = document.getElementById('product-selection');
+      
+          // Initialize chart
+          const ctx = document.getElementById('myChart').getContext('2d');
+          let myChart;
+      
+          // Function to fetch and update data
+          function fetchData() {
+              const reportType = reportTypeSelect.value;
+              const timeline = timelineSelect.value;
+              const product = productSelection.value;
+      
+              // AJAX request to fetch data from server
+              const xhr = new XMLHttpRequest();
+              let url = `php/fetch_data.php?type=${reportType}&timeline=${timeline}`;
+              if (reportType === 'products' && product !== 'all') {
+                  url += `&product=${product}`;
+              }
+              xhr.open('GET', url, true);
+              xhr.onload = function() {
+                  if (xhr.status === 200) {
+                      const data = JSON.parse(xhr.responseText);
+      
+                      // Update chart name
+                      chartName.textContent = 'Report of ' + reportType.charAt(0).toUpperCase() + reportType.slice(1);
+      
+                      // Update chart
+                      if (myChart) {
+                          myChart.destroy(); // Destroy existing chart instance
+                      }
+                      myChart = new Chart(ctx, {
+                          type: 'bar',
+                          data: {
+                              labels: data.labels,
+                              datasets: [{
+                                  label: 'Quantity Sold',
+                                  data: data.data.quantity,
+                                  backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                                  borderColor: 'rgb(255, 99, 132)',
+                                  borderWidth: 1
+                              },
+                              {
+                                  label: 'Total Revenue',
+                                  data: data.data.revenue,
+                                  backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                  borderColor: 'rgb(54, 162, 235)',
+                                  borderWidth: 1
+                              }]
+                          },
+                          options: {
+                              scales: {
+                                  y: {
+                                      beginAtZero: true
+                                  }
+                              }
+                          }
+                      });
+      
+                      // Update table
+reportTableBody.innerHTML = '';
+data.labels.forEach((label, index) => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+        <td>${index + 1}</td> <!-- Serial number -->
+        <td>${label}</td>
+        <td>${data.data.quantity[index]}</td>
+        <td>${data.data.revenue[index]}</td>
+    `;
+    reportTableBody.appendChild(row);
+});
+
+                  } else {
+                      console.error('Error fetching data: ' + xhr.statusText);
+                  }
+              };
+              xhr.send();
+          }
+      
+          // Function to fetch all product names and populate the dropdown
+          function fetchProductNames() {
+              const xhr = new XMLHttpRequest();
+              xhr.open('GET', 'php/fetch_product_names.php', true);
+              xhr.onload = function() {
+                  if (xhr.status === 200) {
+                      const productNames = JSON.parse(xhr.responseText);
+                      productSelection.innerHTML = '<option value="all">All Products</option>';
+                      productNames.forEach(productName => {
+                          const option = document.createElement('option');
+                          option.value = productName;
+                          option.textContent = productName;
+                          productSelection.appendChild(option);
+                      });
+                      fetchData(); // Fetch data after populating product selection
+                  } else {
+                      console.error('Error fetching product names: ' + xhr.statusText);
+                  }
+              };
+              xhr.send();
+          }
+          fetchProductNames();
+      
+          // Event listeners for select boxes
+          reportTypeSelect.addEventListener('change', function() {
+              if (reportTypeSelect.value === 'products') {
+                  productSelection.style.display = 'block';
+                  fetchProductNames(); // Fetch product names when report type is products
+              } else {
+                  productSelection.style.display = 'none';
+                  fetchData();
+              }
+          });
+          timelineSelect.addEventListener('change', fetchData);
+          productSelection.addEventListener('change', fetchData);
+      
+          // Initial data fetch on page load
+          fetchData();
+      });
+      
+      
+      </script>
+      <!--$%analytics%$-->
+   </body>
+</html>

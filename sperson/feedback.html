@@ -1,0 +1,99 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+
+<head> 
+	<meta charset="UTF-8"> 
+	<meta name="viewport"
+		content="width=device-width,initial-scale=1.0"> 
+	<title>Responsive Form Card</title> 
+	<link rel="stylesheet" href= 
+"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"> 
+	<link rel="stylesheet" href="index.css"> 
+</head> 
+
+<body> 
+	<h3>Feedback Form
+	</h3> 
+	<script>
+		// Function to get URL parameter by name
+		function getUrlParam(name) {
+			const urlParams = new URLSearchParams(window.location.search);
+			return urlParams.get(name);
+		}
+		
+		// Wait for DOM content to load
+		document.addEventListener("DOMContentLoaded", function() {
+			// Retrieve order ID from URL
+			const orderID = getUrlParam('data-order-id');
+			console.log(orderID);
+	
+			// Set order ID as the value of the hidden input field
+			const orderInput = document.getElementById('order_id');
+			if (orderInput) {
+				orderInput.value = orderID;
+			} else {
+				console.error("Element with ID 'order_id' not found.");
+			}
+		});
+	</script>
+	
+	<div class="form-box"> 
+		<div class="textup"> 
+			<i class="fa fa-solid fa-clock"></i> 
+			It only takes two minutes!! 
+		</div> 
+		<form id="feedbackForm" action="php/submit_feedback.php" method="POST"> 
+			<input type="hidden" id="order_id" name="order_id">
+			<label for="uname"> 
+				<i class="fa fa-solid fa-user"></i> 
+				Name 
+			</label> 
+			<input type="text" id="uname"
+				name="uname" required> 
+
+			<label> 
+				<i class="fa-solid fa-face-smile"></i> 
+				Do you satisfy with our product? 
+			</label> 
+			<div class="radio-group"> 
+				<input type="radio" id="yes"
+					name="satisfy" value="yes" checked> 
+				<label for="yes">Yes</label> 
+
+				<input type="radio" id="no"
+					name="satisfy" value="no"> 
+				<label for="no">No</label> 
+			</div> 
+
+			<label for="rating"> 
+				<i class="fa-solid fa-star"></i> 
+				Rate our product (0-5): 
+			</label> 
+			<select id="rating" name="rating" required>
+				<option value="" disabled selected>Select rating</option>
+				<option value="5">5 stars</option>
+				<option value="4">4 stars</option>
+				<option value="3">3 stars</option>
+				<option value="2">2 stars</option>
+				<option value="1">1 star</option>
+				<option value="0">0 stars</option>
+			</select>
+
+			<label for="msg"> 
+				<i class="fa-solid fa-comments"
+				style="margin-right: 3px;"></i> 
+				Write your Suggestions: 
+			</label> 
+			<textarea id="msg" name="msg"
+					rows="4" cols="10" required> 
+			</textarea> 
+			<button type="submit"> 
+				Submit 
+			</button> 
+		</form> 
+	</div> 
+
+</body> 
+
+
+</html>
